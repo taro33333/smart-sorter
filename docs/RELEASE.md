@@ -5,14 +5,80 @@
 ## コミットメッセージ規約
 
 リリースノートは **Conventional Commits** から自動生成されます。
-詳細は [CONTRIBUTING.md](../CONTRIBUTING.md) を参照してください。
+正しい形式でコミットメッセージを書くことで、リリースノートが自動で整理されます。
+
+### フォーマット
+
+```
+<type>(<scope>): <description>
+```
+
+### タイプ一覧
+
+| タイプ | 説明 | リリースノートでの表示 |
+|-------|------|----------------------|
+| `feat` | 新機能 | ✨ Features |
+| `fix` | バグ修正 | 🐛 Bug Fixes |
+| `docs` | ドキュメント変更 | 📚 Documentation |
+| `refactor` | リファクタリング | ♻️ Refactor |
+| `perf` | パフォーマンス改善 | ⚡ Performance |
+| `test` | テスト追加・修正 | 🧪 Testing |
+| `chore` | その他の変更 | ⚙️ Miscellaneous Tasks |
+
+### スコープ（オプション）
+
+| スコープ | 説明 |
+|---------|------|
+| `cli` | CLI関連 |
+| `config` | 設定関連 |
+| `sorter` | 分類ロジック |
+| `file_ops` | ファイル操作 |
+| `ci` | CI/CD関連 |
+| `deps` | 依存関係 |
+
+### コミットメッセージの例
 
 ```bash
-# 例
-feat(cli): add new option
-fix(sorter): fix bug in file handling
-docs: update README
+# 新機能
+git commit -m "feat(cli): add --exclude option"
+
+# バグ修正
+git commit -m "fix(sorter): handle empty directories"
+
+# ドキュメント
+git commit -m "docs: update README"
+
+# リファクタリング
+git commit -m "refactor(config): simplify extension mapping"
+
+# パフォーマンス改善
+git commit -m "perf(file_ops): optimize duplicate check"
+
+# テスト追加
+git commit -m "test(sorter): add edge case tests"
+
+# その他
+git commit -m "chore(deps): update clap to v4.5"
 ```
+
+### 生成されるリリースノートの例
+
+```markdown
+## [0.2.0] - 2025-01-15
+
+### ✨ Features
+- **cli**: add --exclude option
+
+### 🐛 Bug Fixes
+- **sorter**: handle empty directories
+
+### 📚 Documentation
+- update README
+```
+
+詳細は [CONTRIBUTING.md](../CONTRIBUTING.md) を参照してください。
+
+---
 
 ## 前提条件
 
