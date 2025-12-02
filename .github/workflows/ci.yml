@@ -86,6 +86,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.70.0
+      - name: Remove Cargo.lock for MSRV compatibility
+        run: rm -f Cargo.lock
       - uses: Swatinem/rust-cache@v2
       - name: Check MSRV
         run: cargo check --all-features
