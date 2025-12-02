@@ -1,4 +1,10 @@
+# cargo-dist によるリリースワークフロー
+# https://opensource.axo.dev/cargo-dist/
+
 name: Release
+
+permissions:
+  contents: write
 
 on:
   push:
@@ -9,7 +15,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  # リリースビルド（複数プラットフォーム）
+  # ビルドジョブ
   build:
     name: Build (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
@@ -17,31 +23,20 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # Linux
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
-            artifact_name: smart-sorter
-            asset_name: smart-sorter-linux-amd64
-          # macOS Intel
           - target: x86_64-apple-darwin
             os: macos-latest
-            artifact_name: smart-sorter
-            asset_name: smart-sorter-darwin-amd64
-          # macOS Apple Silicon
           - target: aarch64-apple-darwin
             os: macos-latest
-            artifact_name: smart-sorter
-            asset_name: smart-sorter-darwin-arm64
-          # Windows
           - target: x86_64-pc-windows-msvc
             os: windows-latest
-            artifact_name: smart-sorter.exe
-            asset_name: smart-sorter-windows-amd64.exe
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: dtolnay/rust-toolchain@stable
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
 
@@ -52,41 +47,69 @@ jobs:
       - name: Build
         run: cargo build --release --target ${{ matrix.target }}
 
+      - name: Prepare artifact (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          mkdir -p dist
+          cp target/${{ matrix.target }}/release/smart-sorter dist/smart-sorter-${{ matrix.target }}
+          chmod +x dist/smart-sorter-${{ matrix.target }}
+
+      - name: Prepare artifact (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          mkdir dist
+          copy target\${{ matrix.target }}\release\smart-sorter.exe dist\smart-sorter-${{ matrix.target }}.exe
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.asset_name }}
-          path: target/${{ matrix.target }}/release/${{ matrix.artifact_name }}
+          name: smart-sorter-${{ matrix.target }}
+          path: dist/
 
-  # GitHubリリース作成
+  # リリース作成
   release:
     name: Create Release
     needs: build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    outputs:
+      version: ${{ steps.get_version.outputs.version }}
     steps:
       - uses: actions/checkout@v6
+
+      - name: Get version
+        id: get_version
+        run: echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
 
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
 
-      - name: Display structure of downloaded files
+      - name: Display structure
         run: ls -laR artifacts/
 
-      - name: Prepare release assets
+      - name: Prepare release files
         run: |
           mkdir -p release
-          cp artifacts/smart-sorter-linux-amd64/smart-sorter release/smart-sorter-linux-amd64
-          cp artifacts/smart-sorter-darwin-amd64/smart-sorter release/smart-sorter-darwin-amd64
-          cp artifacts/smart-sorter-darwin-arm64/smart-sorter release/smart-sorter-darwin-arm64
-          cp artifacts/smart-sorter-windows-amd64.exe/smart-sorter.exe release/smart-sorter-windows-amd64.exe
-          chmod +x release/smart-sorter-*
+          # Linux
+          cp artifacts/smart-sorter-x86_64-unknown-linux-gnu/smart-sorter-x86_64-unknown-linux-gnu release/smart-sorter-linux-amd64
+          # macOS Intel
+          cp artifacts/smart-sorter-x86_64-apple-darwin/smart-sorter-x86_64-apple-darwin release/smart-sorter-darwin-amd64
+          # macOS ARM
+          cp artifacts/smart-sorter-aarch64-apple-darwin/smart-sorter-aarch64-apple-darwin release/smart-sorter-darwin-arm64
+          # Windows
+          cp artifacts/smart-sorter-x86_64-pc-windows-msvc/smart-sorter-x86_64-pc-windows-msvc.exe release/smart-sorter-windows-amd64.exe
+          # 実行権限を付与
+          chmod +x release/smart-sorter-linux-amd64 release/smart-sorter-darwin-amd64 release/smart-sorter-darwin-arm64
+
+      - name: Generate checksums
+        run: |
+          cd release
+          sha256sum * > checksums.txt
+          cat checksums.txt
 
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           draft: false
           prerelease: false
@@ -96,3 +119,84 @@ jobs:
             release/smart-sorter-darwin-amd64
             release/smart-sorter-darwin-arm64
             release/smart-sorter-windows-amd64.exe
+            release/checksums.txt
+
+  # Homebrew Formula 更新
+  homebrew:
+    name: Update Homebrew Formula
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download checksums
+        run: |
+          curl -sL "https://github.com/taro33333/smart-sorter/releases/download/v${{ needs.release.outputs.version }}/checksums.txt" -o checksums.txt
+          cat checksums.txt
+
+      - name: Extract SHA256
+        id: sha
+        run: |
+          echo "linux=$(grep 'smart-sorter-linux-amd64' checksums.txt | awk '{print $1}')" >> $GITHUB_OUTPUT
+          echo "darwin_amd64=$(grep 'smart-sorter-darwin-amd64' checksums.txt | awk '{print $1}')" >> $GITHUB_OUTPUT
+          echo "darwin_arm64=$(grep 'smart-sorter-darwin-arm64' checksums.txt | awk '{print $1}')" >> $GITHUB_OUTPUT
+
+      - name: Checkout homebrew-tap
+        uses: actions/checkout@v4
+        with:
+          repository: taro33333/homebrew-tap
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          path: homebrew-tap
+
+      - name: Update Formula
+        run: |
+          cat > homebrew-tap/smart-sorter.rb << 'EOF'
+          class SmartSorter < Formula
+            desc "A CLI tool to automatically organize files by extension"
+            homepage "https://github.com/taro33333/smart-sorter"
+            version "${{ needs.release.outputs.version }}"
+            license "MIT"
+
+            on_macos do
+              on_arm do
+                url "https://github.com/taro33333/smart-sorter/releases/download/v${{ needs.release.outputs.version }}/smart-sorter-darwin-arm64"
+                sha256 "${{ steps.sha.outputs.darwin_arm64 }}"
+
+                def install
+                  bin.install "smart-sorter-darwin-arm64" => "smart-sorter"
+                end
+              end
+
+              on_intel do
+                url "https://github.com/taro33333/smart-sorter/releases/download/v${{ needs.release.outputs.version }}/smart-sorter-darwin-amd64"
+                sha256 "${{ steps.sha.outputs.darwin_amd64 }}"
+
+                def install
+                  bin.install "smart-sorter-darwin-amd64" => "smart-sorter"
+                end
+              end
+            end
+
+            on_linux do
+              on_intel do
+                url "https://github.com/taro33333/smart-sorter/releases/download/v${{ needs.release.outputs.version }}/smart-sorter-linux-amd64"
+                sha256 "${{ steps.sha.outputs.linux }}"
+
+                def install
+                  bin.install "smart-sorter-linux-amd64" => "smart-sorter"
+                end
+              end
+            end
+
+            test do
+              system "#{bin}/smart-sorter", "--version"
+            end
+          end
+          EOF
+
+      - name: Commit and Push
+        run: |
+          cd homebrew-tap
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add smart-sorter.rb
+          git commit -m "Update smart-sorter to v${{ needs.release.outputs.version }}"
+          git push
