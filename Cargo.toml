@@ -8,7 +8,7 @@ license = "MIT"
 readme = "README.md"
 keywords = ["cli", "file-organizer", "automation"]
 categories = ["command-line-utilities"]
-rust-version = "1.70.0"
+rust-version = "1.74.0"
 
 [dependencies]
 # CLI argument parsing with derive macro
