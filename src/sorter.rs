@@ -71,10 +71,7 @@ impl SortStats {
         );
 
         if dry_run {
-            println!(
-                "Files to be moved: {}",
-                self.moved_files.to_string().cyan()
-            );
+            println!("Files to be moved: {}", self.moved_files.to_string().cyan());
         } else {
             println!("Files moved: {}", self.moved_files.to_string().green());
             if self.renamed_files > 0 {
@@ -86,10 +83,7 @@ impl SortStats {
         }
 
         if self.skipped_files > 0 {
-            println!(
-                "Files skipped: {}",
-                self.skipped_files.to_string().yellow()
-            );
+            println!("Files skipped: {}", self.skipped_files.to_string().yellow());
         }
 
         if self.error_count > 0 {
@@ -151,10 +145,7 @@ impl Sorter {
         );
 
         if self.config.dry_run {
-            println!(
-                "{}",
-                "[DRY RUN MODE] No files will be moved.".cyan().bold()
-            );
+            println!("{}", "[DRY RUN MODE] No files will be moved.".cyan().bold());
         }
 
         if self.config.recursive {
@@ -449,10 +440,7 @@ mod tests {
             sorter.categorize_file(Path::new("test.zip")),
             Category::Archives
         );
-        assert_eq!(
-            sorter.categorize_file(Path::new("test.rs")),
-            Category::Code
-        );
+        assert_eq!(sorter.categorize_file(Path::new("test.rs")), Category::Code);
         assert_eq!(
             sorter.categorize_file(Path::new("test.xyz")),
             Category::Others

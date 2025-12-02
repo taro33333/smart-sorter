@@ -40,7 +40,10 @@ pub fn generate_unique_path(dest_dir: &Path, filename: &str) -> PathBuf {
 
     // ファイル名を stem と extension に分割
     let path = Path::new(filename);
-    let stem = path.file_stem().and_then(|s| s.to_str()).unwrap_or(filename);
+    let stem = path
+        .file_stem()
+        .and_then(|s| s.to_str())
+        .unwrap_or(filename);
     let extension = path.extension().and_then(|s| s.to_str());
 
     // 連番を付けて重複しない名前を探す

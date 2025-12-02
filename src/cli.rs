@@ -70,14 +70,8 @@ mod tests {
 
     #[test]
     fn test_args_with_flags() {
-        let args = Args::try_parse_from([
-            "smart-sorter",
-            "-d",
-            "-r",
-            "-v",
-            "/home/user/Downloads",
-        ])
-        .unwrap();
+        let args = Args::try_parse_from(["smart-sorter", "-d", "-r", "-v", "/home/user/Downloads"])
+            .unwrap();
         assert!(args.dry_run);
         assert!(args.recursive);
         assert!(args.verbose);

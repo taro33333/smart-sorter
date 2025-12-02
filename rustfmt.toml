@@ -7,18 +7,6 @@ tab_spaces = 4
 newline_style = "Unix"
 use_small_heuristics = "Default"
 
-# Imports
-imports_granularity = "Module"
-group_imports = "StdExternalCrate"
+# Imports (stable options only)
 reorder_imports = true
 reorder_modules = true
-
-# Comments
-wrap_comments = false
-normalize_comments = false
-format_code_in_doc_comments = true
-
-# Other
-format_strings = false
-format_macro_matchers = false
-
