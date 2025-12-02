@@ -25,8 +25,7 @@
 macOS / Linux ユーザーは Homebrew でインストールできます：
 
 ```bash
-brew tap taro33333/tap
-brew install smart-sorter
+brew install taro33333/tap/smart-sorter
 ```
 
 ## クイックスタート
