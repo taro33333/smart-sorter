@@ -12,6 +12,7 @@ use tracing::{debug, info, warn};
 #[derive(Debug, Clone)]
 pub struct MoveResult {
     /// 移動元のパス
+    #[allow(dead_code)]
     pub source: PathBuf,
     /// 移動先のパス（重複回避後の実際のパス）
     pub destination: PathBuf,

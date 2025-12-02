@@ -32,6 +32,7 @@ pub struct FilePlan {
     /// 移動元のパス
     pub source: PathBuf,
     /// 移動先のパス（重複回避前の予定パス）
+    #[allow(dead_code)]
     pub destination: PathBuf,
     /// 分類されるカテゴリ
     pub category: Category,
@@ -270,8 +271,10 @@ impl Sorter {
 
     /// Dry Run実行
     fn execute_dry_run(&self, plans: &[FilePlan]) -> Result<SortStats> {
-        let mut stats = SortStats::default();
-        stats.total_files = plans.len();
+        let mut stats = SortStats {
+            total_files: plans.len(),
+            ..Default::default()
+        };
 
         for plan in plans {
             // カテゴリカウントを更新
@@ -334,8 +337,10 @@ impl Sorter {
 
     /// 実際のファイル移動を実行
     fn execute_move(&self, plans: &[FilePlan]) -> Result<SortStats> {
-        let mut stats = SortStats::default();
-        stats.total_files = plans.len();
+        let mut stats = SortStats {
+            total_files: plans.len(),
+            ..Default::default()
+        };
 
         // カテゴリフォルダを事前に作成
         for category in Category::all() {
