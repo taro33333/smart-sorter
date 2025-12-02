@@ -1,0 +1,55 @@
+# Cursor Rules for smart-sorter
+
+## プロジェクト概要
+このプロジェクトはRust製のファイル整理CLIツール「smart-sorter」です。
+
+## 技術スタック
+- 言語: Rust (Edition 2021)
+- CLI: clap (derive パターン)
+- エラー処理: anyhow
+- ログ: tracing
+- 出力: colored
+
+## コーディング規約
+
+### Rust スタイル
+- `rustfmt.toml` に従ってフォーマット
+- `clippy.toml` のリント設定に準拠
+- エラーは `anyhow::Result` で伝播、`.with_context()` でコンテキスト付与
+
+### 命名規則
+- 構造体・列挙型: PascalCase
+- 関数・変数: snake_case
+- 定数: SCREAMING_SNAKE_CASE
+- モジュール: snake_case
+
+### ドキュメント
+- パブリックAPIには `///` ドキュメントコメント必須
+- モジュールには `//!` でモジュールレベルドキュメント
+
+### テスト
+- 各モジュール内に `#[cfg(test)] mod tests` を配置
+- テスト関数は `test_` プレフィックス
+
+## ファイル構成
+```
+src/
+├── main.rs       # エントリーポイント
+├── cli.rs        # CLI引数定義
+├── config.rs     # 設定・マッピング
+├── file_ops.rs   # ファイル操作
+└── sorter.rs     # コアロジック
+```
+
+## よく使うコマンド
+- `cargo build` - ビルド
+- `cargo test` - テスト
+- `cargo clippy` - リント
+- `cargo fmt` - フォーマット
+- `cargo run -- --dry-run <DIR>` - Dry Run実行
+
+## 注意点
+- ファイル移動は不可逆操作、常にDry Runを推奨
+- クロスプラットフォーム対応のため `PathBuf` を使用
+- シンボリックリンクは安全のためスキップ
+
