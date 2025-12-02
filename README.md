@@ -29,32 +29,6 @@ brew tap taro33333/tap
 brew install smart-sorter
 ```
 
-### GitHub Releases
-
-[Releases ページ](https://github.com/taro33333/smart-sorter/releases) からバイナリをダウンロード：
-
-| OS | アーキテクチャ | ファイル名 |
-|----|--------------|-----------|
-| macOS | Apple Silicon (M1/M2) | `smart-sorter-darwin-arm64` |
-| macOS | Intel | `smart-sorter-darwin-amd64` |
-| Linux | x86_64 | `smart-sorter-linux-amd64` |
-| Windows | x86_64 | `smart-sorter-windows-amd64.exe` |
-
-```bash
-# 例: macOS Apple Silicon
-curl -LO https://github.com/taro33333/smart-sorter/releases/latest/download/smart-sorter-darwin-arm64
-chmod +x smart-sorter-darwin-arm64
-sudo mv smart-sorter-darwin-arm64 /usr/local/bin/smart-sorter
-```
-
-### ソースからビルド
-
-```bash
-git clone https://github.com/taro33333/smart-sorter.git
-cd smart-sorter
-cargo install --path .
-```
-
 ## クイックスタート
 
 ```bash
@@ -162,6 +136,24 @@ cargo fmt
 
 # リント
 cargo clippy
+```
+
+### GitHub Releases
+
+[Releases ページ](https://github.com/taro33333/smart-sorter/releases) からバイナリをダウンロード：
+
+| OS | アーキテクチャ | ファイル名 |
+|----|--------------|-----------|
+| macOS | Apple Silicon (M1/M2) | `smart-sorter-darwin-arm64` |
+| macOS | Intel | `smart-sorter-darwin-amd64` |
+| Linux | x86_64 | `smart-sorter-linux-amd64` |
+| Windows | x86_64 | `smart-sorter-windows-amd64.exe` |
+
+```bash
+# 例: macOS Apple Silicon
+curl -LO https://github.com/taro33333/smart-sorter/releases/latest/download/smart-sorter-darwin-arm64
+chmod +x smart-sorter-darwin-arm64
+sudo mv smart-sorter-darwin-arm64 /usr/local/bin/smart-sorter
 ```
 
 ## ライセンス
