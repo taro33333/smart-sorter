@@ -9,7 +9,7 @@
 Homebrew Tap への自動プッシュには Personal Access Token (PAT) が必要です。
 
 1. **PAT を作成**
-   - https://github.com/settings/tokens?type=beta へアクセス
+   - <https://github.com/settings/tokens?type=beta> へアクセス
    - 「Generate new token (Beta)」をクリック
    - **Token name**: `homebrew-tap-access`
    - **Expiration**: 適切な期限を設定
@@ -19,7 +19,7 @@ Homebrew Tap への自動プッシュには Personal Access Token (PAT) が必�
    - 「Generate token」をクリックしてトークンをコピー
 
 2. **Secret を追加**
-   - https://github.com/taro33333/smart-sorter/settings/secrets/actions へアクセス
+   - <https://github.com/taro33333/smart-sorter/settings/secrets/actions> へアクセス
    - 「New repository secret」をクリック
    - **Name**: `HOMEBREW_TAP_TOKEN`
    - **Value**: コピーしたPATを貼り付け
@@ -73,8 +73,8 @@ git push origin v0.2.0
 
 ### 5. リリースの確認
 
-- **GitHub Release**: https://github.com/taro33333/smart-sorter/releases
-- **Homebrew Formula**: https://github.com/taro33333/homebrew-tap/blob/main/smart-sorter.rb
+- **GitHub Release**: <https://github.com/taro33333/smart-sorter/releases>
+- **Homebrew Formula**: <https://github.com/taro33333/homebrew-tap/blob/main/smart-sorter.rb>
 
 ---
 
@@ -95,9 +95,10 @@ git push origin v0.2.0
 ### リリースが失敗した場合
 
 1. **GitHub Actions のログを確認**
-   - https://github.com/taro33333/smart-sorter/actions
+   - <https://github.com/taro33333/smart-sorter/actions>
 
 2. **タグを削除して再作成**
+
    ```bash
    # ローカルのタグを削除
    git tag -d v0.2.0
@@ -141,4 +142,3 @@ brew upgrade smart-sorter
 - [GitHub Releases](https://github.com/taro33333/smart-sorter/releases)
 - [Homebrew Tap](https://github.com/taro33333/homebrew-tap)
 - [GitHub Actions ワークフロー](https://github.com/taro33333/smart-sorter/actions)
-
