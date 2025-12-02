@@ -172,5 +172,4 @@ MIT License
 
 - [GitHub Repository](https://github.com/taro33333/smart-sorter)
 - [Releases](https://github.com/taro33333/smart-sorter/releases)
-- [Homebrew Tap](https://github.com/taro33333/homebrew-tap)
 - [リリース手順](docs/RELEASE.md)

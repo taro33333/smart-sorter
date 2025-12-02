@@ -2,6 +2,18 @@
 
 このドキュメントでは、smart-sorter の新しいバージョンをリリースする手順を説明します。
 
+## コミットメッセージ規約
+
+リリースノートは **Conventional Commits** から自動生成されます。
+詳細は [CONTRIBUTING.md](../CONTRIBUTING.md) を参照してください。
+
+```bash
+# 例
+feat(cli): add new option
+fix(sorter): fix bug in file handling
+docs: update README
+```
+
 ## 前提条件
 
 ### 1. GitHub Secret の設定（初回のみ）
@@ -140,5 +152,4 @@ brew upgrade smart-sorter
 ## 関連リンク
 
 - [GitHub Releases](https://github.com/taro33333/smart-sorter/releases)
-- [Homebrew Tap](https://github.com/taro33333/homebrew-tap)
 - [GitHub Actions ワークフロー](https://github.com/taro33333/smart-sorter/actions)

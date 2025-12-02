@@ -108,12 +108,21 @@ jobs:
           sha256sum * > checksums.txt
           cat checksums.txt
 
+      - name: Generate release notes
+        id: changelog
+        uses: orhun/git-cliff-action@v3
+        with:
+          config: cliff.toml
+          args: --latest --strip header
+        env:
+          OUTPUT: CHANGELOG.md
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           draft: false
           prerelease: false
-          generate_release_notes: true
+          body: ${{ steps.changelog.outputs.content }}
           files: |
             release/smart-sorter-linux-amd64
             release/smart-sorter-darwin-amd64
