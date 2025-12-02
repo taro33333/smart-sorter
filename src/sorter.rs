@@ -6,7 +6,7 @@
 use crate::config::{get_category, get_default_category, Category};
 use crate::file_ops::{
     ensure_directory, generate_unique_path, get_extension, is_directory, is_file, is_symlink,
-    move_file_with_dedup, MoveResult,
+    move_file_with_dedup,
 };
 use anyhow::{Context, Result};
 use colored::Colorize;
@@ -295,7 +295,11 @@ impl Sorter {
             let dest_dir = self.config.target_dir.join(plan.category.folder_name());
 
             // 重複がある場合の移動先ファイル名を計算
-            let filename = plan.source.file_name().and_then(|n| n.to_str()).unwrap_or("unknown");
+            let filename = plan
+                .source
+                .file_name()
+                .and_then(|n| n.to_str())
+                .unwrap_or("unknown");
             let final_dest = if plan.has_conflict {
                 generate_unique_path(&dest_dir, filename)
             } else {
@@ -530,4 +534,3 @@ mod tests {
         }
     }
 }
-

@@ -8,6 +8,7 @@ license = "MIT"
 readme = "README.md"
 keywords = ["cli", "file-organizer", "automation"]
 categories = ["command-line-utilities"]
+rust-version = "1.70.0"
 
 [dependencies]
 # CLI argument parsing with derive macro
@@ -26,9 +27,12 @@ colored = "2.1"
 # For lazy static initialization of extension mappings
 once_cell = "1.19"
 
+[dev-dependencies]
+# Temporary directory for testing
+tempfile = "3.10"
+
 [profile.release]
 opt-level = 3
 lto = true
 codegen-units = 1
 strip = true
-

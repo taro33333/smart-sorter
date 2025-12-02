@@ -7,6 +7,7 @@
 **smart-sorter** は、ファイルを拡張子に基づいて自動整理するRust製CLIツールです。
 
 ### 主な機能
+
 - 拡張子によるファイルの自動分類（Images, Videos, Documents, Music, Archives, Code, Others）
 - Dry Runモード（安全確認）
 - 重複ファイル名の自動リネーム（`filename_1.ext` 形式）
@@ -106,13 +107,16 @@ pub struct Args {
 ## 拡張ポイント
 
 ### 新しいカテゴリを追加する場合
+
 1. `config.rs` の `Category` enum に追加
 2. `Category::folder_name()` にマッピング追加
 3. `Category::all()` に追加
 4. `EXTENSION_MAP` に対応する拡張子を追加
 
 ### 新しい拡張子を追加する場合
+
 `config.rs` の `EXTENSION_MAP` 初期化部分に追加:
+
 ```rust
 let new_extensions = ["ext1", "ext2"];
 for ext in new_extensions {
@@ -130,4 +134,3 @@ for ext in new_extensions {
 - ファイル移動は不可逆操作のため、`dry_run` オプションを推奨
 - シンボリックリンクはスキップされる
 - カテゴリフォルダ内のファイルは処理対象外（無限ループ防止）
-

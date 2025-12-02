@@ -83,4 +83,3 @@ mod tests {
         assert!(args.verbose);
     }
 }
-

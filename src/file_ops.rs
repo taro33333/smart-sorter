@@ -123,10 +123,7 @@ pub fn move_file(source: &Path, destination: &Path) -> Result<()> {
         Err(e) => {
             // rename が失敗した場合（異なるファイルシステム間など）
             // コピー＆削除にフォールバック
-            debug!(
-                "rename failed ({}), falling back to copy+delete",
-                e
-            );
+            debug!("rename failed ({}), falling back to copy+delete", e);
 
             fs::copy(source, destination).with_context(|| {
                 format!(
@@ -275,9 +272,18 @@ mod tests {
 
     #[test]
     fn test_get_extension() {
-        assert_eq!(get_extension(Path::new("test.txt")), Some("txt".to_string()));
-        assert_eq!(get_extension(Path::new("test.PDF")), Some("pdf".to_string()));
-        assert_eq!(get_extension(Path::new("test.tar.gz")), Some("gz".to_string()));
+        assert_eq!(
+            get_extension(Path::new("test.txt")),
+            Some("txt".to_string())
+        );
+        assert_eq!(
+            get_extension(Path::new("test.PDF")),
+            Some("pdf".to_string())
+        );
+        assert_eq!(
+            get_extension(Path::new("test.tar.gz")),
+            Some("gz".to_string())
+        );
         assert_eq!(get_extension(Path::new("README")), None);
     }
 
@@ -310,4 +316,3 @@ mod tests {
         assert_eq!(fs::read_to_string(&dest).unwrap(), "test content");
     }
 }
-

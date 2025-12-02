@@ -106,7 +106,7 @@ fn print_warning() {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::print_banner;
 
     #[test]
     fn test_banner_does_not_panic() {
@@ -114,4 +114,3 @@ mod tests {
         print_banner();
     }
 }
-

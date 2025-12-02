@@ -108,11 +108,11 @@ pub static EXTENSION_MAP: Lazy<HashMap<&'static str, Category>> = Lazy::new(|| {
     // Code - ソースコード・設定ファイル
     let code_extensions = [
         "rs", "py", "js", "ts", "jsx", "tsx", "html", "htm", "css", "scss", "sass", "less",
-        "json", "xml", "yaml", "yml", "toml", "md", "markdown", "sh", "bash", "zsh", "fish",
-        "c", "cpp", "cc", "cxx", "h", "hpp", "hxx", "go", "java", "kt", "kts", "scala", "rb",
-        "php", "pl", "pm", "swift", "m", "mm", "sql", "r", "lua", "vim", "el", "clj", "cljs",
-        "edn", "ex", "exs", "erl", "hrl", "hs", "lhs", "ml", "mli", "fs", "fsi", "fsx",
-        "dockerfile", "makefile", "cmake", "gradle", "sbt", "cabal",
+        "json", "xml", "yaml", "yml", "toml", "md", "markdown", "sh", "bash", "zsh", "fish", "c",
+        "cpp", "cc", "cxx", "h", "hpp", "hxx", "go", "java", "kt", "kts", "scala", "rb", "php",
+        "pl", "pm", "swift", "m", "mm", "sql", "r", "lua", "vim", "el", "clj", "cljs", "edn",
+        "ex", "exs", "erl", "hrl", "hs", "lhs", "ml", "mli", "fs", "fsi", "fsx", "dockerfile",
+        "makefile", "cmake", "gradle", "sbt", "cabal",
     ];
     for ext in code_extensions {
         map.insert(ext, Category::Code);
@@ -195,4 +195,3 @@ mod tests {
         assert_eq!(Category::Others.folder_name(), "Others");
     }
 }
-
