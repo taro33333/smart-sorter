@@ -204,6 +204,19 @@ cargo fmt
 cargo clippy
 ```
 
+## インストール（Homebrew）
+
+macOS / Linux ユーザーは Homebrew でインストールできます：
+
+```bash
+# Tap を追加してインストール
+brew tap taro33333/tap
+brew install smart-sorter
+
+# または直接インストール
+brew install taro33333/tap/smart-sorter
+```
+
 ## ライセンス
 
 MIT License
@@ -211,3 +224,7 @@ MIT License
 ## 貢献
 
 プルリクエストやイシューの報告を歓迎します。
+
+## ドキュメント
+
+- [リリース手順](docs/RELEASE.md) - 新しいバージョンのリリース方法
