@@ -157,7 +157,7 @@ jobs:
           echo "darwin_arm64=$(grep 'smart-sorter-darwin-arm64' checksums.txt | awk '{print $1}')" >> $GITHUB_OUTPUT
 
       - name: Checkout homebrew-tap
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: taro33333/homebrew-tap
           token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
