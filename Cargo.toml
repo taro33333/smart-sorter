@@ -23,7 +23,7 @@ tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 # Colored terminal output
-colored = "2.1"
+colored = "3.0"
 
 # For lazy static initialization of extension mappings
 once_cell = "1.19"
