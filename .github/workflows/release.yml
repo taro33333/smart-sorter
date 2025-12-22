@@ -61,7 +61,7 @@ jobs:
           copy target\${{ matrix.target }}\release\smart-sorter.exe dist\smart-sorter-${{ matrix.target }}.exe
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: smart-sorter-${{ matrix.target }}
           path: dist/
