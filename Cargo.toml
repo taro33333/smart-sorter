@@ -13,7 +13,7 @@ repository = "https://github.com/taro33333/smart-sorter"
 
 [dependencies]
 # CLI argument parsing with derive macro
-clap = { version = "4.4", features = ["derive"] }
+clap = { version = "4.5", features = ["derive"] }
 
 # Error handling with context
 anyhow = "1.0"
